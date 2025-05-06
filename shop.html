@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .navbar,
+        body.dark-mode .product-card {
+            background: #2a2a2a;
+            border-color: #444;
+        }
+        
+        body.dark-mode .menu a,
+        body.dark-mode .logo span,
+        body.dark-mode .product-card h3,
+        body.dark-mode .product-card p {
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .menu a:hover,
+        body.dark-mode .iconite svg:hover {
+            color: #d4a017;
+            stroke: #d4a017;
+        }
+        
+        body.dark-mode .wishlist-panel,
+        body.dark-mode .cart-panel {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .wishlist-panel h2,
+        body.dark-mode .wishlist-item p,
+        body.dark-mode .cart-panel h2,
+        body.dark-mode .cart-item p {
+            color: #e0e0e0;
+        }
+        
+        .main_sectie {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+        }
+        
+        .texty {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: url("shop_main.png") no-repeat center center;
+            background-size: cover;
+        }
+        
+        .texty h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        body.dark-mode .texty h1 {
+            color: #fff;
+        }
+        
+        .texty h1:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            color: #b88e2f;
+        }
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111;
+        }
+        
+        .menu {
+            display: flex;
+            gap: 90px;
+        }
+        
+        .menu a {
+            text-decoration: none;
+            color: #111;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .menu a:hover {
+            color: #b88e2f;
+        }
+        
+        .iconite {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .iconite svg {
+            width: 28px;
+            height: 28px;
+            stroke: #111;
+            fill: none;
+            stroke-width: 2;
+            cursor: pointer;
+            transition: stroke 0.2s;
+        }
+        
+        .iconite svg:hover {
+            stroke: #b88e2f;
+        }
+        
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            color: #000000;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        #search {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: block;
+        }
+        
+        #products-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .product-card {
+            position: relative;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 1rem;
+            margin: 1rem;
+            cursor: pointer;
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        
+        .discount {
+            background-color: red;
+            color: white;
+            padding: 0.2em 0.5em;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        .new {
+            background-color: teal;
+            color: white;
+            padding: 0.2em 0.5em;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        
+        #pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .page-btn {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: none;
+            background: #eee;
+            cursor: pointer;
+        }
+        
+        .page-btn.active {
+            background: #d6b161;
+            color: white;
+        }
+        
+        .product-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .product-buttons button {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            background-color: #696262;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .product-buttons button:hover {
+            background-color: #968e7d;
+            transform: scale(1.05);
+        }
+        
+        #filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        #categorieFilter,
+        #priceFilterMin,
+        #priceFilterMax {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .price-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .price-filter label {
+            font-size: 0.9rem;
+        }
+        
+        .deals-section,
+        .promo-section {
+            padding: 20px;
+            background: #e6f3e6;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .promo-section img {
+            max-width: 300px;
+            height: auto;
+        }
+        
+        .promo-section button {
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .footer {
+            background: #f8f8f8;
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            border-top: 1px solid #ddd;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a,
+        .footer-column p {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        
+        .footer-column a:hover {
+            color: #b88e2f;
+        }
+        
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        body.dark-mode .popup {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+        
+        .popup img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        
+        .popup-content {
+            text-align: left;
+        }
+        
+        .popup-content h2 {
+            margin-top: 0;
+        }
+        
+        .popup-content .rating {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+        }
+        
+        .popup-content .rating span {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        .popup-content .reviews {
+            margin-top: 20px;
+        }
+        
+        .popup-content .reviews div {
+            border-top: 1px solid #eee;
+            padding: 10px 0;
+        }
+        
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .theme-toggle {
+            cursor: pointer;
+            padding: 10px;
+            background: #ddd;
+            border-radius: 5px;
+        }
+        
+        body.dark-mode .theme-toggle {
+            background: #444;
+            color: #e0e0e0;
+        }
+        
+        .indicator {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: rgb(139, 113, 113);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .indicator.pulse {
+            animation: pulseAnim 0.4s ease;
+        }
+        
+        @keyframes pulseAnim {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.4);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .wishlist-panel,
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            transition: right 0.3s ease;
+            z-index: 1001;
+            overflow-y: auto;
+        }
+        
+        .wishlist-panel.open,
+        .cart-panel.open {
+            right: 0;
+        }
+        
+        .wishlist-panel h2,
+        .cart-panel h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .wishlist-item,
+        .cart-item {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .wishlist-item img,
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+        
+        .wishlist-item p,
+        .cart-item p {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        .wishlist-item button,
+        .cart-item button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .wishlist-toggle,
+        .cart-toggle {
+            background: #696262;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            position: relative;
+        }
+        
+        .wishlist-close,
+        .cart-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .wishlist-overlay,
+        .cart-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .cart-total {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        
+        .cart-checkout {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #696262;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .cart-checkout:hover {
+            background: #968e7d;
+        }
+        
+        @media (max-width: 1024px) {
+            .navbar {
+                flex-wrap: wrap;
+                padding: 16px 20px;
+            }
+            .menu {
+                gap: 30px;
+            }
+            .iconite {
+                gap: 20px;
+            }
+            #search {
+                width: 250px;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .popup {
+                width: 80%;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .navbar {
+                flex-wrap: wrap;
+                padding: 16px 20px;
+            }
+            .menu {
+                gap: 30px;
+            }
+            .iconite {
+                gap: 20px;
+            }
+            .texty {
+                height: 300px;
+                width: 439px;
+            }
+            .menu {
+                align-items: self-start;
+            }
+            #search {
+                width: 250px;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .popup {
+                width: 80%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 20px;
+            }
+            .menu {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            .iconite {
+                gap: 15px;
+            }
+            #search {
+                width: 200px;
+            }
+            .texty h1 {
+                font-size: 1.5rem;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            #filters {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .price-filter {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .promo-section img {
+                max-width: 200px;
+            }
+            .footer {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 10px;
+            }
+            .footer-column {
+                margin: 10px 0;
+                text-align: center;
+            }
+            .wishlist-panel,
+            .cart-panel {
+                width: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo span {
+                font-size: 1.5rem;
+            }
+            .iconite svg {
+                width: 24px;
+                height: 24px;
+            }
+            #search {
+                width: 150px;
+                font-size: 0.9rem;
+            }
+            .texty h1 {
+                font-size: 1.2rem;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-card {
+                padding: 0.5rem;
+                margin: 0.5rem;
+            }
+            .product-buttons button {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .promo-section img {
+                max-width: 150px;
+            }
+            .popup {
+                width: 90%;
+                padding: 15px;
+            }
+            .popup-content h2 {
+                font-size: 1.2rem;
+            }
+            .popup-content .rating span {
+                font-size: 1.2rem;
+            }
+            .footer-column h4 {
+                font-size: 1rem;
+            }
+            .footer-column a,
+            .footer-column p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 425px) {
+            .logo span {
+                font-size: 1.5rem;
+            }
+            .iconite svg {
+                width: 24px;
+                height: 24px;
+            }
+            #search {
+                width: 150px;
+                font-size: 0.9rem;
+            }
+            .texty h1 {
+                font-size: 1.2rem;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-card {
+                padding: 0.5rem;
+                margin: 0.5rem;
+            }
+            .product-buttons button {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .promo-section img {
+                max-width: 150px;
+            }
+            .popup {
+                width: 90%;
+                padding: 15px;
+            }
+            .popup-content h2 {
+                font-size: 1.2rem;
+            }
+            .popup-content .rating span {
+                font-size: 1.2rem;
+            }
+            .footer-column h4 {
+                font-size: 1rem;
+            }
+            .footer-column a,
+            .footer-column p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo span {
+                font-size: 1.5rem;
+            }
+            .iconite svg {
+                width: 24px;
+                height: 24px;
+            }
+            #search {
+                width: 150px;
+                font-size: 0.9rem;
+            }
+            .texty h1 {
+                font-size: 1.2rem;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-card {
+                padding: 0.5rem;
+                margin: 0.5rem;
+            }
+            .product-buttons button {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .promo-section img {
+                max-width: 150px;
+            }
+            .popup {
+                width: 90%;
+                padding: 15px;
+            }
+            .popup-content h2 {
+                font-size: 1.2rem;
+            }
+            .popup-content .rating span {
+                font-size: 1.2rem;
+            }
+            .footer-column h4 {
+                font-size: 1rem;
+            }
+            .footer-column a,
+            .footer-column p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 426px) {
+            .logo span {
+                font-size: 1.5rem;
+            }
+            .iconite svg {
+                width: 24px;
+                height: 24px;
+            }
+            #search {
+                width: 150px;
+                font-size: 0.9rem;
+            }
+            .texty h1 {
+                font-size: 1.2rem;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-card {
+                padding: 0.5rem;
+                margin: 0.5rem;
+            }
+            .product-buttons button {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .promo-section img {
+                max-width: 150px;
+            }
+            .popup {
+                width: 90%;
+                padding: 15px;
+            }
+            .popup-content h2 {
+                font-size: 1.2rem;
+            }
+            .popup-content .rating span {
+                font-size: 1.2rem;
+            }
+            .footer-column h4 {
+                font-size: 1rem;
+            }
+            .footer-column a,
+            .footer-column p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 425px) {
+            .logo span {
+                font-size: 1.5rem;
+            }
+            .iconite svg {
+                width: 24px;
+                height: 24px;
+            }
+            .texty {
+                height: 200px;
+                width: 600px;
+            }
+            .texty h1 {
+                font-size: 10px;
+                align-items: center;
+                justify-content: center;
+            }
+            #search {
+                width: 150px;
+                font-size: 0.9rem;
+            }
+            .texty h1 {
+                font-size: 1.2rem;
+            }
+            #products-container,
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-card {
+                padding: 0.5rem;
+                margin: 0.5rem;
+            }
+            .product-buttons button {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .promo-section img {
+                max-width: 150px;
+            }
+            .popup {
+                width: 90%;
+                padding: 15px;
+            }
+            .popup-content h2 {
+                font-size: 1.2rem;
+            }
+            .popup-content .rating span {
+                font-size: 1.2rem;
+            }
+            .footer-column h4 {
+                font-size: 1rem;
+            }
+            .footer-column a,
+            .footer-column p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="main_sectie">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logou.png" alt="Logo" />
+                <span>Furniro</span>
+            </div>
+            <div class="menu">
+                <a href="home.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="iconite">
+                <a href="profile.html" title="Profil">
+                    <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 8-4 8-4s8 0 8 4" />
+            </svg>
+                </a>
+                <input type="text" id="search" placeholder="Caută produs..." />
+                <div class="wishlist-toggle" onclick="toggleWishlist()">
+                    Favorite
+                    <span id="favoriteCount" class="indicator">0</span>
+                </div>
+                <div class="cart-toggle" onclick="toggleCart()">
+                    Coș
+                    <span id="cartCount" class="indicator">0</span>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </nav>
+        <div class="texty">
+            <h1>Bine ați venit în magazinul nostru</h1>
+        </div>
+    </section>
+
+    <div id="filters">
+        <select id="categorieFilter">
+        <option value="">Toate categoriile</option>
+        <option value="Canapele">Canapele</option>
+        <option value="Mese">Mese</option>
+        <option value="Dulapuri">Dulapuri</option>
+        <option value="Paturi">Paturi</option>
+        <option value="Scaune">Scaune</option>
+        <option value="Comode">Comode</option>
+        <option value="Birouri">Birouri</option>
+        <option value="Fotolii">Fotolii</option>
+        <option value="Rafturi">Rafturi</option>
+        <option value="Noptiere">Noptiere</option>
+        <option value="Seturi mobilier">Seturi mobilier</option>
+        <option value="Mobilier Baie">Mobilier Baie</option>
+        <option value="Mobilier Hol">Mobilier Hol</option>
+        <option value="Mobilier Exterior">Mobilier Exterior</option>
+      </select>
+        <div class="price-filter">
+            <label>Preț: <span id="priceMinValue">0</span> -
+          <span id="priceMaxValue">5000</span> Lei</label
+        >
+        <input type="range" id="priceFilterMin" min="0" max="5000" value="0" />
+        <input
+          type="range"
+          id="priceFilterMax"
+          min="0"
+          max="5000"
+          value="5000"
+        />
+      </div>
+    </div>
+
+    <div id="products-container"></div>
+    <div id="pagination"></div>
+
+    <div class="deals-section">
+      <h2>Deals of the Day</h2>
+      <div class="deals-grid" id="deals-container"></div>
+    </div>
+
+    <div class="promo-section">
+      <h2>Stay home & get your daily needs</h2>
+      <p>Start your daily shopping with our shop</p>
+      <img
+        url="https://png.pngtree.com/png-clipart/20230529/original/pngtree-special-promo-banner-shape-vector-png-image_9173710.png"
+        alt=""
+      />
+      <input type="email" id="subscribeEmail" placeholder="Your email" />
+      <button onclick="subscribe()">Subscribe</button>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-column">
+        <h4>Furniro</h4>
+        <p>Address: 1234 Furniture St, City, Country</p>
+        <p>Email: contact@furniro.com</p>
+        <p>Phone: 1900-6666</p>
+        <p>Hours: 10:00 - 18:00, Mon - Sat</p>
+      </div>
+      <div class="footer-column">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-column">
+        <h4>Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a>
+      </div>
+      <div class="footer-column">
+        <h4>Popular</h4>
+        <a href="#">Best Sellers</a>
+        <a href="#">Gift Vouchers</a>
+        <a href="#">Shipping</a>
+        <a href="#">Discount</a>
+        <a href="#">Check Voucher</a>
+      </div>
+      <div class="footer-column">
+        <h4>Install App</h4>
+        <a href="#">Google Play</a>
+        <a href="#">App Store</a>
+      </div>
+    </footer>
+
+    <div
+      id="wishlistOverlay"
+      class="wishlist-overlay"
+      onclick="toggleWishlist()"
+    ></div>
+    <div id="wishlistPanel" class="wishlist-panel">
+      <span class="wishlist-close" onclick="toggleWishlist()">×</span>
+      <h2>Favorite</h2>
+      <div id="wishlistItems"></div>
+    </div>
+
+    <div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+    <div id="cartPanel" class="cart-panel">
+      <span class="cart-close" onclick="toggleCart()">×</span>
+      <h2>Coș de cumpărături</h2>
+      <div id="cartItems"></div>
+      <div id="cartTotal" class="cart-total">TOTAL: 0 Lei</div>
+      <button
+        class="cart-checkout"
+        onclick="window.location.href='checkout.html'"
+      >
+        Detalii livrare
+      </button>
+    </div>
+
+    <div id="popupOverlay" class="popup-overlay"></div>
+    <div id="productPopup" class="popup">
+      <span class="close-popup" onclick="closePopup()">×</span>
+      <div class="popup-content">
+        <img id="popupImage" src="" alt="Produs" />
+        <h2 id="popupName"></h2>
+        <p id="popupDescription"></p>
+        <p><strong id="popupPrice"></strong></p>
+        <div class="rating">
+          <span onclick="rateProduct(1)">★</span>
+          <span onclick="rateProduct(2)">★</span>
+          <span onclick="rateProduct(3)">★</span>
+          <span onclick="rateProduct(4)">★</span>
+          <span onclick="rateProduct(5)">★</span>
+        </div>
+        <p>
+          Rating curent: <span id="popupRating">0</span> (din
+          <span id="popupRatingCount">0</span> voturi)
+        </p>
+        <div class="reviews">
+          <h3>Recenzii</h3>
+          <div id="popupReviews"></div>
+          <textarea
+            id="reviewText"
+            placeholder="Scrie o recenzie..."
+          ></textarea>
+          <button onclick="addReview()">Adaugă recenzie</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let products = [];
+      let currentPage = 1;
+      let favoriteProducts = [];
+      let cartProducts = [];
+      let ratings = {};
+      let reviews = {};
+      const productsPerPage = 8;
+
+      function loadTheme() {
+        if (localStorage.getItem("theme") === "dark") {
+          document.body.classList.add("dark-mode");
+        }
+      }
+
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("dark-mode") ? "dark" : "light"
+        );
+      }
+
+      function toggleWishlist() {
+        const panel = document.getElementById("wishlistPanel");
+        const overlay = document.getElementById("wishlistOverlay");
+        panel.classList.toggle("open");
+        overlay.style.display = panel.classList.contains("open")
+          ? "block"
+          : "none";
+      }
+
+      function toggleCart() {
+        const panel = document.getElementById("cartPanel");
+        const overlay = document.getElementById("cartOverlay");
+        panel.classList.toggle("open");
+        overlay.style.display = panel.classList.contains("open")
+          ? "block"
+          : "none";
+        displayCart();
+      }
+
+      function displayWishlist() {
+        const wishlistItems = document.getElementById("wishlistItems");
+        wishlistItems.innerHTML = "";
+        favoriteProducts.forEach((product) => {
+          const itemHTML = `
+                    <div class="wishlist-item">
+                        <img src="${product.imagine}" alt="${product.nume}">
+                        <p>${product.nume}<br>${product.pret} Lei</p>
+                        <button onclick="removeFromWishlist(${product.id})">Șterge</button>
+                    </div>`;
+          wishlistItems.insertAdjacentHTML("beforeend", itemHTML);
+        });
+        updateIndicators();
+      }
+
+      function displayCart() {
+        const cartItems = document.getElementById("cartItems");
+        const cartTotal = document.getElementById("cartTotal");
+        cartItems.innerHTML = "";
+        cartProducts.forEach((item) => {
+          const product = item.product;
+          const itemHTML = `
+                    <div class="cart-item">
+                        <img src="${product.imagine}" alt="${product.nume}">
+                        <p>${product.nume} x${item.quantity}<br>${
+            product.pret * item.quantity
+          } Lei</p>
+                        <button onclick="removeFromCart(${
+                          product.id
+                        })">Șterge</button>
+                    </div>`;
+          cartItems.insertAdjacentHTML("beforeend", itemHTML);
+        });
+        const total = cartProducts.reduce(
+          (sum, item) =>
+            sum + Number(item.product.pret) * Number(item.quantity),
+          0
+        );
+        cartTotal.textContent = `TOTAL: ${total} Lei`;
+      }
+
+      function removeFromWishlist(productId) {
+        favoriteProducts = favoriteProducts.filter((p) => p.id !== productId);
+        localStorage.setItem("favorites", JSON.stringify(favoriteProducts));
+        updateIndicators();
+        displayWishlist();
+      }
+
+      function removeFromCart(productId) {
+        cartProducts = cartProducts.filter(
+          (item) => item.product.id !== productId
+        );
+        localStorage.setItem("cart", JSON.stringify(cartProducts));
+        updateIndicators();
+        displayCart();
+      }
+
+      async function loadProducts() {
+        try {
+          const response = await fetch("produse.json");
+          if (!response.ok) throw new Error("Eroare la încărcarea produselor");
+          products = (await response.json()).produse;
+          displayProducts();
+          setupPagination();
+          displayDeals();
+        } catch (error) {
+          console.error(error);
+          const container = document.getElementById("products-container");
+          container.innerHTML = `<p style="text-align: center; color: red;">Eroare la încărcarea produselor. Verificați fișierul produse.json sau conexiunea.</p>`;
+        }
+      }
+
+      function displayProducts() {
+        const container = document.getElementById("products-container");
+        container.innerHTML = "";
+        const filteredProducts = applyFilters();
+        const start = (currentPage - 1) * productsPerPage;
+        const end = start + productsPerPage;
+        const productsToShow = filteredProducts.slice(start, end);
+
+        productsToShow.forEach((product) => {
+          const avgRating = ratings[product.id]
+            ? (ratings[product.id].sum / ratings[product.id].count).toFixed(1)
+            : 0;
+          const productHTML = `
+                    <div class="product-card" data-id="${
+                      product.id
+                    }" onclick="showProductPopup(${product.id})">
+                        <div class="product-image-container">
+                            <img src="${product.imagine}" alt="${
+            product.nume
+          }" />
+                        </div>
+                        ${
+                          product.material
+                            ? `<span class="discount">${product.material}</span>`
+                            : ""
+                        }
+                        ${
+                          product.categorie
+                            ? `<span class="new">Nou</span>`
+                            : ""
+                        }
+                        <h3>${product.nume}</h3>
+                        <p>${product.descriere}</p>
+                        <p><strong>${product.pret} Lei</strong></p>
+                        <p>Rating: ${avgRating} ★</p>
+                        <div class="product-buttons">
+                            <button class="add-to-favorites" onclick="addToFavorites(event, ${
+                              product.id
+                            })">❤️ Favorite</button>
+                            <button class="add-to-cart" onclick="addToCart(event, ${
+                              product.id
+                            })">🛒 În coș</button>
+                        </div>
+                    </div>`;
+          container.insertAdjacentHTML("beforeend", productHTML);
+        });
+      }
+
+      function applyFilters() {
+        const category = document.getElementById("categorieFilter").value;
+        const searchInput = document
+          .getElementById("search")
+          .value.toLowerCase();
+        const priceMin = parseInt(
+          document.getElementById("priceFilterMin").value
+        );
+        const priceMax = parseInt(
+          document.getElementById("priceFilterMax").value
+        );
+
+        return products.filter((product) => {
+          const matchesCategory = category
+            ? product.categorie === category
+            : true;
+          const matchesSearch = product.nume
+            .toLowerCase()
+            .includes(searchInput);
+          const matchesPrice =
+            product.pret >= priceMin && product.pret <= priceMax;
+          return matchesCategory && matchesSearch && matchesPrice;
+        });
+      }
+
+      function setupPagination() {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+        const filteredProducts = applyFilters();
+        const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
+
+        for (let i = 1; i <= pageCount; i++) {
+          const btn = document.createElement("button");
+          btn.classList.add("page-btn");
+          if (i === currentPage) btn.classList.add("active");
+          btn.textContent = i;
+          btn.addEventListener("click", () => {
+            currentPage = i;
+            displayProducts();
+            setupPagination();
+          });
+          pagination.appendChild(btn);
+        }
+      }
+
+      function addToFavorites(event, productId) {
+        event.stopPropagation();
+        const product = products.find((prod) => prod.id === productId);
+        if (!favoriteProducts.some((p) => p.id === productId)) {
+          favoriteProducts.push(product);
+          alert(`${product.nume} a fost adăugat la favorite`);
+          displayWishlist();
+        } else {
+          alert(`${product.nume} este deja în favorite`);
+        }
+        updateIndicators();
+      }
+
+      function addToCart(event, productId) {
+        event.stopPropagation();
+        const product = products.find((prod) => prod.id === productId);
+        const existingItem = cartProducts.find(
+          (item) => item.product.id === productId
+        );
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cartProducts.push({ product, quantity: 1 });
+        }
+        alert(`${product.nume} a fost adăugat în coș`);
+        updateIndicators();
+        displayCart();
+      }
+
+      function showProductPopup(productId) {
+        const product = products.find((prod) => prod.id === productId);
+        document.getElementById("popupImage").src = product.imagine;
+        document.getElementById("popupName").textContent = product.nume;
+        document.getElementById("popupDescription").textContent =
+          product.descriere;
+        document.getElementById(
+          "popupPrice"
+        ).textContent = `${product.pret} Lei`;
+        const avgRating = ratings[productId]
+          ? (ratings[productId].sum / ratings[productId].count).toFixed(1)
+          : 0;
+        document.getElementById("popupRating").textContent = avgRating;
+        document.getElementById("popupRatingCount").textContent = ratings[
+          productId
+        ]
+          ? ratings[productId].count
+          : 0;
+        const reviewsContainer = document.getElementById("popupReviews");
+        reviewsContainer.innerHTML = "";
+        if (reviews[productId]) {
+          reviews[productId].forEach((review) => {
+            reviewsContainer.innerHTML += `<div>${review}</div>`;
+          });
+        }
+        document.getElementById("productPopup").dataset.productId = productId;
+        document.getElementById("popupOverlay").style.display = "block";
+        document.getElementById("productPopup").style.display = "block";
+      }
+
+      function closePopup() {
+        document.getElementById("popupOverlay").style.display = "none";
+        document.getElementById("productPopup").style.display = "none";
+      }
+
+      function rateProduct(stars) {
+        const productId =
+          document.getElementById("productPopup").dataset.productId;
+        if (!ratings[productId]) ratings[productId] = { sum: 0, count: 0 };
+        ratings[productId].sum += stars;
+        ratings[productId].count++;
+        localStorage.setItem("ratings", JSON.stringify(ratings));
+        const avgRating = (
+          ratings[productId].sum / ratings[productId].count
+        ).toFixed(1);
+        document.getElementById("popupRating").textContent = avgRating;
+        document.getElementById("popupRatingCount").textContent =
+          ratings[productId].count;
+        displayProducts();
+      }
+
+      function addReview() {
+        const productId =
+          document.getElementById("productPopup").dataset.productId;
+        const reviewText = document.getElementById("reviewText").value;
+        if (reviewText.trim()) {
+          if (!reviews[productId]) reviews[productId] = [];
+          reviews[productId].push(reviewText);
+          localStorage.setItem("reviews", JSON.stringify(reviews));
+          document.getElementById(
+            "popupReviews"
+          ).innerHTML += `<div>${reviewText}</div>`;
+          document.getElementById("reviewText").value = "";
+        } else {
+          alert("Vă rugăm să introduceți o recenzie validă.");
+        }
+      }
+
+      function displayDeals() {
+        const dealsContainer = document.getElementById("deals-container");
+        dealsContainer.innerHTML = "";
+        const dealProducts = products.slice(0, 4);
+        dealProducts.forEach((product) => {
+          const dealHTML = `
+                    <div class="product-card" onclick="showProductPopup(${product.id})">
+                        <img src="${product.imagine}" alt="${product.nume}" />
+                        <h3>${product.nume}</h3>
+                        <p><strong>${product.pret} Lei</strong></p>
+                        <div class="product-buttons">
+                            <button class="add-to-cart" onclick="addToCart(event, ${product.id})">🛒 În coș</button>
+                        </div>
+                    </div>`;
+          dealsContainer.insertAdjacentHTML("beforeend", dealHTML);
+        });
+      }
+
+      function subscribe() {
+        const email = document.getElementById("subscribeEmail").value;
+        if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          alert(`Vă mulțumim pentru abonare, ${email}!`);
+          document.getElementById("subscribeEmail").value = "";
+        } else {
+          alert("Vă rugăm să introduceți o adresă de email validă.");
+        }
+      }
+
+      function updateIndicators() {
+        const favoriteCount = document.getElementById("favoriteCount");
+        const cartCount = document.getElementById("cartCount");
+        favoriteCount.textContent = favoriteProducts.length;
+        cartCount.textContent = cartProducts.reduce(
+          (sum, item) => sum + (Number(item.quantity) || 0),
+          0
+        );
+        favoriteCount.classList.add("pulse");
+        cartCount.classList.add("pulse");
+        setTimeout(() => {
+          favoriteCount.classList.remove("pulse");
+          cartCount.classList.remove("pulse");
+        }, 400);
+        localStorage.setItem("favorites", JSON.stringify(favoriteProducts));
+        localStorage.setItem("cart", JSON.stringify(cartProducts));
+      }
+
+      function loadFromStorage() {
+        const fav = localStorage.getItem("favorites");
+        const cart = localStorage.getItem("cart");
+        const savedRatings = localStorage.getItem("ratings");
+        const savedReviews = localStorage.getItem("reviews");
+        if (fav) {
+          try {
+            favoriteProducts = JSON.parse(fav);
+          } catch (e) {
+            console.error("Eroare la parsarea favorites din localStorage:", e);
+            favoriteProducts = [];
+          }
+        }
+        if (cart) {
+          try {
+            let parsedCart = JSON.parse(cart);
+            cartProducts = parsedCart.map((item) => {
+              if (item.product && typeof item.quantity === "number") {
+                return item;
+              } else {
+                return { product: item, quantity: 1 };
+              }
+            });
+          } catch (e) {
+            console.error("Eroare la parsarea cart din localStorage:", e);
+            cartProducts = [];
+            localStorage.removeItem("cart");
+          }
+        }
+        if (savedRatings) {
+          try {
+            ratings = JSON.parse(savedRatings);
+          } catch (e) {
+            console.error("Eroare la parsarea ratings din localStorage:", e);
+            ratings = {};
+          }
+        }
+        if (savedReviews) {
+          try {
+            reviews = JSON.parse(savedReviews);
+          } catch (e) {
+            console.error("Eroare la parsarea reviews din localStorage:", e);
+            reviews = {};
+          }
+        }
+        updateIndicators();
+        displayWishlist();
+        displayCart();
+      }
+
+      document
+        .getElementById("categorieFilter")
+        .addEventListener("change", () => {
+          currentPage = 1;
+          displayProducts();
+          setupPagination();
+        });
+      document.getElementById("search").addEventListener("input", () => {
+        currentPage = 1;
+        displayProducts();
+        setupPagination();
+      });
+      document
+        .getElementById("priceFilterMin")
+        .addEventListener("input", () => {
+          document.getElementById("priceMinValue").textContent =
+            document.getElementById("priceFilterMin").value;
+          currentPage = 1;
+          displayProducts();
+          setupPagination();
+        });
+      document
+        .getElementById("priceFilterMax")
+        .addEventListener("input", () => {
+          document.getElementById("priceMaxValue").textContent =
+            document.getElementById("priceFilterMax").value;
+          currentPage = 1;
+          displayProducts();
+          setupPagination();
+        });
+
+      loadTheme();
+      loadFromStorage();
+      loadProducts();
+    </script>
+  </body>
+</html>

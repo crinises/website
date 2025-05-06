@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comandă</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      body.dark-mode {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+      }
+
+      body.dark-mode .navbar,
+      body.dark-mode .checkout-container {
+        background: #2a2a2a;
+        border-color: #444;
+      }
+
+      body.dark-mode .navbar a,
+      body.dark-mode .checkout-container h2,
+      body.dark-mode .checkout-container p,
+      body.dark-mode .empty-cart,
+      body.dark-mode .debug-message {
+        color: #e0e0e0;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 40px;
+        border-bottom: 1px solid #eee;
+        background: #fff;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo img {
+        height: 40px;
+      }
+
+      .logo span {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #111;
+      }
+
+      .menu {
+        display: flex;
+        gap: 90px;
+      }
+
+      .menu a {
+        text-decoration: none;
+        color: #111;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .menu a:hover {
+        color: #b88e2f;
+      }
+
+      .theme-toggle {
+        cursor: pointer;
+        padding: 10px;
+        background: #ddd;
+        border-radius: 5px;
+      }
+
+      body.dark-mode .theme-toggle {
+        background: #444;
+        color: #e0e0e0;
+      }
+
+      .checkout-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .cart-item {
+        display: flex;
+        gap: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .cart-item img {
+        width: 100px;
+        height: auto;
+      }
+
+      .cart-item-details {
+        flex: 1;
+      }
+
+      .cart-item-details h3 {
+        margin: 0;
+      }
+
+      .cart-item-details .unit-price {
+        font-size: 0.9rem;
+        color: #777;
+      }
+
+      .cart-item-details .quantity {
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      .cart-item-details .subtotal {
+        font-weight: bold;
+      }
+
+      .remove-btn {
+        background: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .checkout-form {
+        margin-top: 20px;
+      }
+
+      .checkout-form label {
+        display: block;
+        margin: 10px 0 5px;
+      }
+
+      .checkout-form input,
+      .checkout-form select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .checkout-form button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #b88e2f;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .empty-cart {
+        text-align: center;
+        color: #555;
+      }
+
+      .debug-message {
+        text-align: center;
+        color: #ff4d4d;
+        font-size: 0.9rem;
+        margin-top: 10px;
+      }
+
+      .card-details {
+        display: none;
+        margin-top: 10px;
+      }
+
+      .card-details.show {
+        display: block;
+      }
+
+      .card-details input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .card-image {
+        display: block;
+        margin: 10px auto;
+        max-width: 100px;
+        height: auto;
+      }
+
+      body.dark-mode .card-details input {
+        background: #333;
+        color: #e0e0e0;
+        border-color: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="logou.png" alt="Logo" />
+        <span>Furniro</span>
+      </div>
+      <div class="menu">
+        <a href="index.html">Acasă</a>
+        <a href="shop.html">Magazin</a>
+        <a href="about.html">Despre</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="iconite">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      </div>
+    </nav>
+
+    <div class="checkout-container">
+      <h2>Coș de cumpărături</h2>
+      <div id="cartItems"></div>
+      <div id="debugMessage"></div>
+      <p>
+        <strong>Total: <span id="cartTotal">0</span> Lei</strong>
+      </p>
+      <div class="checkout-form">
+        <h3>Detalii livrare</h3>
+        <label for="nume">Nume complet</label>
+        <input type="text" id="nume" required />
+        <label for="adresa">Adresa</label>
+        <input type="text" id="adresa" required />
+        <label for="telefon">Telefon</label>
+        <input type="tel" id="telefon" required />
+        <label for="plata">Metoda de plată</label>
+        <select id="plata" required onchange="toggleCardDetails()">
+          <option value="card">Card</option>
+          <option value="chesh">Numerar</option>
+        </select>
+        <div class="card-details" id="cardDetails">
+          <label for="cardNumber">Număr card</label>
+          <input
+            type="text"
+            id="cardNumber"
+            placeholder="1234 5678 9012 3456"
+            maxlength="19"
+            oninput="detectCardType()"
+          />
+          <img
+            id="cardImage"
+            class="card-image"
+            src="https://cdn.pixabay.com/photo/2016/11/14/03/56/credit-card-1822681_1280.png"
+            alt="Card"
+          />
+        </div>
+        <button onclick="finalizeOrder()">Finalizează comanda</button>
+      </div>
+    </div>
+
+    <script>
+      let cartProducts = [];
+
+      function loadTheme() {
+        if (localStorage.getItem("theme") === "dark") {
+          document.body.classList.add("dark-mode");
+        }
+      }
+
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("dark-mode") ? "dark" : "light"
+        );
+      }
+
+      function loadCart() {
+        const cart = localStorage.getItem("cart");
+        if (cart) {
+          try {
+            cartProducts = JSON.parse(cart);
+            console.log("Date din localStorage:", cartProducts);
+
+            cartProducts = cartProducts
+              .map((item) => {
+                if (
+                  item &&
+                  item.product &&
+                  typeof item.quantity === "number" &&
+                  item.quantity > 0
+                ) {
+                  return item;
+                } else if (item && item.product) {
+                  return {
+                    product: item.product,
+                    quantity: 1,
+                  };
+                }
+                return null;
+              })
+              .filter((item) => item !== null);
+          } catch (e) {
+            console.error("Eroare la parsarea cart din localStorage:", e);
+            cartProducts = [];
+            localStorage.removeItem("cart");
+          }
+        } else {
+          cartProducts = [];
+        }
+        displayCart();
+      }
+
+      function displayCart() {
+        const cartItems = document.getElementById("cartItems");
+        const debugMessage = document.getElementById("debugMessage");
+        cartItems.innerHTML = "";
+        debugMessage.innerHTML = "";
+        let total = 0;
+        if (cartProducts.length === 0) {
+          cartItems.innerHTML = '<p class="empty-cart">Coșul este gol.</p>';
+        } else {
+          cartProducts.forEach((item) => {
+            const product = item.product;
+            const price = Number(product.pret) || 0;
+            const quantity = Number(item.quantity) || 1;
+            const itemTotal = price * quantity;
+            total += itemTotal;
+            const itemHTML = `
+                        <div class="cart-item">
+                            <img src="${product.imagine}" alt="${product.nume}">
+                            <div class="cart-item-details">
+                                <h3>${product.nume}</h3>
+                                <p class="unit-price">Preț unitar: ${price} Lei</p>
+                                <p class="quantity">Cantitate: ${quantity}</p>
+                                <p class="subtotal">Subtotal: ${itemTotal} Lei</p>
+                            </div>
+                            <button class="remove-btn" onclick="removeFromCart(${product.id})">Șterge</button>
+                        </div>`;
+            cartItems.insertAdjacentHTML("beforeend", itemHTML);
+          });
+
+          const allQuantitiesOne = cartProducts.every(
+            (item) => Number(item.quantity) === 1
+          );
+          if (allQuantitiesOne && cartProducts.length > 0) {
+            debugMessage.innerHTML =
+              '<p class="debug-message">Notă: Toate cantitățile sunt 1. Verificați dacă adăugarea în coș funcționează corect în pagina principală.</p>';
+          }
+        }
+        document.getElementById("cartTotal").textContent = total;
+      }
+
+      function removeFromCart(productId) {
+        cartProducts = cartProducts.filter(
+          (item) => item.product.id !== productId
+        );
+        localStorage.setItem("cart", JSON.stringify(cartProducts));
+        displayCart();
+      }
+
+      function toggleCardDetails() {
+        const paymentMethod = document.getElementById("plata").value;
+        const cardDetails = document.getElementById("cardDetails");
+        if (paymentMethod === "card") {
+          cardDetails.classList.add("show");
+        } else {
+          cardDetails.classList.remove("show");
+          document.getElementById("cardNumber").value = "";
+          document.getElementById("cardImage").src =
+            "https://cdn.pixabay.com/photo/2016/11/14/03/56/credit-card-1822681_1280.png";
+        }
+      }
+
+      function detectCardType() {
+        const cardNumber = document
+          .getElementById("cardNumber")
+          .value.replace(/\D/g, "");
+        const cardImage = document.getElementById("cardImage");
+        let cardType = "unknown";
+
+        if (cardNumber.startsWith("4")) {
+          cardType = "visa";
+          cardImage.src =
+            "https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png";
+        } else if (
+          cardNumber.startsWith("51") ||
+          cardNumber.startsWith("52") ||
+          cardNumber.startsWith("53") ||
+          cardNumber.startsWith("54") ||
+          cardNumber.startsWith("55")
+        ) {
+          cardType = "mastercard";
+          cardImage.src =
+            "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg";
+        } else if (cardNumber.startsWith("34") || cardNumber.startsWith("37")) {
+          cardType = "amex";
+          cardImage.src =
+            "https://www.citypng.com/public/uploads/preview/hd-amex-american-express-logo-png-701751694708970jttzjjyo6e.png?v=2025042221";
+        } else if (
+          cardNumber.startsWith("6011") ||
+          cardNumber.startsWith("644") ||
+          cardNumber.startsWith("645") ||
+          cardNumber.startsWith("646") ||
+          cardNumber.startsWith("647") ||
+          cardNumber.startsWith("648") ||
+          cardNumber.startsWith("649") ||
+          cardNumber.startsWith("65")
+        ) {
+          cardType = "discover";
+          cardImage.src =
+            "https://1000logos.net/wp-content/uploads/2021/05/Discover-logo.png";
+        } else {
+          cardImage.src =
+            "https://cdn.pixabay.com/photo/2016/11/14/03/56/credit-card-1822681_1280.png";
+        }
+
+        cardImage.alt = cardType === "unknown" ? "Card" : cardType;
+      }
+
+      function finalizeOrder() {
+        const nume = document.getElementById("nume").value;
+        const adresa = document.getElementById("adresa").value;
+        const telefon = document.getElementById("telefon").value;
+        const plata = document.getElementById("plata").value;
+        const cardNumber =
+          plata === "card"
+            ? document.getElementById("cardNumber").value.replace(/\D/g, "")
+            : "";
+
+        if (!nume || !adresa || !telefon || !plata) {
+          alert("Completați toate câmpurile obligatorii!");
+          return;
+        }
+
+        if (
+          plata === "card" &&
+          (!cardNumber || cardNumber.length < 13 || cardNumber.length > 19)
+        ) {
+          alert("Numărul de card trebuie să aibă între 13 și 19 cifre!");
+          return;
+        }
+
+        if (cartProducts.length === 0) {
+          alert("Coșul este gol!");
+          return;
+        }
+
+        alert("Comanda a fost plasată cu succes!");
+        cartProducts = [];
+        localStorage.setItem("cart", JSON.stringify(cartProducts));
+        displayCart();
+      }
+
+      loadTheme();
+      loadCart();
+      toggleCardDetails();
+    </script>
+  </body>
+</html>

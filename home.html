@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .navbar,
+        body.dark-mode .patratul,
+        body.dark-mode .inspiratie,
+        body.dark-mode .footer {
+            background: #2a2a2a;
+            border-color: #444;
+        }
+        
+        body.dark-mode .navbar a,
+        body.dark-mode .logo span,
+        body.dark-mode .patratul p,
+        body.dark-mode .patratul h1,
+        body.dark-mode .patratul #text,
+        body.dark-mode .a_doua p,
+        body.dark-mode .product-card,
+        body.dark-mode .inspiratie h2,
+        body.dark-mode .inspiratie p,
+        body.dark-mode .room-info,
+        body.dark-mode .a_treia p,
+        body.dark-mode .a_treia h2,
+        body.dark-mode .footer h2,
+        body.dark-mode .footer p,
+        body.dark-mode .footer a {
+            color: #e0e0e0;
+            background: #2a2a2a;
+        }
+        
+        body.dark-mode .navbar a:hover,
+        body.dark-mode .iconite svg:hover,
+        body.dark-mode .footer-link:hover {
+            color: #d4a017;
+            stroke: #d4a017;
+        }
+        
+        body.dark-mode .theme-toggle {
+            background: #444;
+            color: #e0e0e0;
+        }
+        
+        .main_sectie {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            background: url("scaun.png") no-repeat center center fixed;
+            background-size: cover;
+        }
+        
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111;
+        }
+        
+        .menu {
+            display: flex;
+            gap: 90px;
+        }
+        
+        .menu a {
+            text-decoration: none;
+            color: #111;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .menu a:hover {
+            color: #b88e2f;
+        }
+        
+        .iconite {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .iconite svg {
+            width: 28px;
+            height: 28px;
+            stroke: #111;
+            fill: none;
+            stroke-width: 2;
+            cursor: pointer;
+            transition: stroke 0.2s;
+        }
+        
+        .iconite svg:hover {
+            stroke: #b88e2f;
+        }
+        
+        .theme-toggle {
+            cursor: pointer;
+            padding: 10px;
+            background: #ddd;
+            border-radius: 5px;
+        }
+        
+        .patratul {
+            background: #f9eedc;
+            border-radius: 10px;
+            max-width: 600px;
+            padding: 40px 32px;
+            margin: 200px 60px 0 auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            align-self: flex-end;
+        }
+        
+        .patratul p {
+            letter-spacing: 0.15em;
+            color: #222;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        
+        .patratul h1 {
+            color: #b88e2f;
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0 0 18px 0;
+            line-height: 1.1;
+        }
+        
+        .patratul #text {
+            color: #222;
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        
+        .patratul button {
+            background: #b88e2f;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 2px;
+            padding: 20px 56px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .patratul button:hover {
+            background: #a77b2c;
+        }
+        
+        .a_doua {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .a_doua p {
+            margin: 0 0 12px 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .a_doua #group-115 {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .doileaa {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 250px;
+        }
+        
+        .doileaa img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .doileaa img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(184, 142, 47, 0.2);
+        }
+        
+        .doileaa p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .product-card {
+            position: relative;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 16px;
+        }
+        
+        .product-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 4px 0;
+        }
+        
+        .product-desc {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        .product-price {
+            margin-top: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-weight: normal;
+            margin-left: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #e97171;
+            color: #fff;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+        
+        .badge.new {
+            background: #2ec1ac;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .product-card:hover .overlay {
+            opacity: 1;
+        }
+        
+        .overlay button {
+            background: #fff;
+            color: #000;
+            padding: 10px 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .overlay button:hover {
+            background: #f0f0f0;
+        }
+        
+        .overlay .actions {
+            display: flex;
+            gap: 16px;
+            font-size: 0.9rem;
+        }
+        
+        .show-more {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .show-more button {
+            background: #fff;
+            border: 1px solid #b88e2f;
+            color: #b88e2f;
+            padding: 12px 40px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .show-more button:hover {
+            background: #b88e2f;
+            color: #fff;
+        }
+        
+        .inspiratie {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            gap: 50px;
+            background-color: #ede7de;
+            margin-top: 50px;
+        }
+        
+        .content {
+            flex: 1;
+        }
+        
+        .content h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            margin-left: 4px;
+        }
+        
+        .content p {
+            margin-bottom: 20px;
+            color: #777;
+        }
+        
+        .buton_inspo {
+            background-color: #d9a441;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .swiper {
+            flex: 2;
+            width: 600px;
+        }
+        
+        .room-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .room-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .room-info {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .room-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #777;
+        }
+        
+        .room-info h3 {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        
+        .buton_sage {
+            background-color: #d9a441;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .swiper-pagination {
+            margin-top: 20px;
+        }
+        
+        .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: #d9d9d9;
+            opacity: 1;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+        
+        .swiper-button-next {
+            background-color: #ffffff;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            right: 10px;
+        }
+        
+        .swiper-button-next:after {
+            font-family: swiper-icons;
+            font-size: 20px;
+            color: #d9a441;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: #d9a441;
+        }
+        
+        .a_treia {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            background-color: white;
+            margin-top: 120px;
+        }
+        
+        .a_treia div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .a_treia p {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .a_treia h2 {
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .a_treia img {
+            width: 100%;
+            max-width: 1200px;
+            height: auto;
+        }
+        
+        .footer {
+            width: 100%;
+            border-top: 1px solid rgba(0, 0, 0, 0.17);
+            padding: 48px 20px;
+            box-sizing: border-box;
+            background-color: #fff;
+            font-family: "Poppins", sans-serif;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .footer-info {
+            max-width: 285px;
+        }
+        
+        .brand-name {
+            font-weight: 700;
+            font-size: 24px;
+            color: #000;
+            margin-bottom: 50px;
+            margin-top: 0;
+        }
+        
+        .company-address {
+            font-weight: 400;
+            font-size: 16px;
+            color: #9f9f9f;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .footer-navigation {
+            display: flex;
+            gap: 70px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-heading {
+            font-weight: 500;
+            font-size: 16px;
+            color: #9f9f9f;
+            margin-bottom: 20px;
+            margin-top: 0;
+        }
+        
+        .footer-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-link {
+            font-weight: 400;
+            font-size: 16px;
+            color: #000;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 46px;
+        }
+        
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+        
+        .newsletter-form {
+            width: 286px;
+        }
+        
+        .input-container {
+            position: relative;
+            height: 50px;
+        }
+        
+        .email-label {
+            font-weight: 400;
+            font-size: 14px;
+            color: #9f9f9f;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .email-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            outline: none;
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            color: #000;
+            padding: 0;
+        }
+        
+        .input-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 1px;
+            background-color: #000;
+        }
+        
+        .subscribe-button {
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #000;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .subscribe-button:hover {
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            font-weight: 400;
+            font-size: 16px;
+            color: #000;
+            margin-top: 50px;
+            border-top: 1px solid #d9d9d9;
+            padding-top: 24px;
+            text-align: center;
+        }
+        /* Responsive Styles */
+        
+        @media (max-width: 1024px) {
+            .navbar {
+                flex-wrap: wrap;
+                padding: 16px 20px;
+            }
+            .menu {
+                gap: 30px;
+            }
+            .patratul {
+                margin: 100px 40px 0 auto;
+                padding: 30px 20px;
+                max-width: 500px;
+            }
+            .patratul h1 {
+                font-size: 2.5rem;
+            }
+            .inspiratie {
+                flex-direction: column;
+                gap: 30px;
+                padding: 30px 20px;
+            }
+            .swiper {
+                width: 100%;
+                max-width: 600px;
+            }
+            .footer-navigation {
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main_sectie {
+                height: auto;
+                min-height: 100vh;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 20px;
+            }
+            .menu {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            .iconite {
+                gap: 20px;
+            }
+            .patratul {
+                margin: 50px 20px;
+                padding: 20px;
+                align-self: center;
+                max-width: 100%;
+            }
+            .patratul h1 {
+                font-size: 2rem;
+            }
+            .patratul button {
+                padding: 15px 40px;
+                font-size: 1rem;
+            }
+            .a_doua #group-115 {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .inspiratie {
+                padding: 20px;
+            }
+            .content h2 {
+                font-size: 24px;
+            }
+            .swiper {
+                width: 100%;
+            }
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-info {
+                margin-bottom: 30px;
+            }
+            .footer-navigation {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .newsletter-form {
+                width: 100%;
+            }
+            .input-underline {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo span {
+                font-size: 1.5rem;
+            }
+            .iconite svg {
+                width: 24px;
+                height: 24px;
+            }
+            .patratul h1 {
+                font-size: 1.5rem;
+            }
+            .patratul p,
+            .patratul #text {
+                font-size: 0.9rem;
+            }
+            .patratul button {
+                padding: 10px 30px;
+                font-size: 0.9rem;
+            }
+            .a_doua p {
+                font-size: 0.9rem;
+            }
+            .a_doua p:first-child {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .product-image {
+                height: 200px;
+            }
+            .a_treia p {
+                font-size: 16px;
+            }
+            .a_treia h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="main_sectie">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logou.png" alt="Logo" />
+                <span>Furniro</span>
+            </div>
+            <div class="menu">
+                <a href="home.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="iconite">
+                <a href="profile.html" title="Profile">
+                    <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 8-4 8-4s8 0 8 4" />
+            </svg>
+                </a>
+                <a href="search.html" title="Search">
+                    <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+                </a>
+                <a href="favorites.html" title="Favorites">
+                    <svg viewBox="0 0 24 24">
+              <path
+                d="M12 21C12 21 4 13.5 4 8.5C4 5.5 6.5 3 9.5 3C11.24 3 12.91 4.01 13.44 5.61C13.97 4.01 15.64 3 17.38 3C20.38 3 22.88 5.5 22.88 8.5C22.88 13.5 15 21 15 21H12Z"
+              />
+            </svg>
+                </a>
+                <a href="cart.html" title="Cart">
+                    <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path
+                d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61l1.38-7.39H6"
+              />
+            </svg>
+                </a>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </nav>
+
+        <div class="patratul">
+            <p>New Arrival</p>
+            <h1>
+                Discover Our<br /> New Collection
+            </h1>
+            <p id="text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.
+            </p>
+            <button>BUY NOW</button>
+        </div>
+    </section>
+
+    <section class="a_doua">
+        <p style="font-size: 25px"><b>Browse The Range</b></p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        <br /><br />
+        <div id="group-115">
+            <div class="doileaa">
+                <img src="prima.png" alt="Dining" />
+                <p>Dining</p>
+            </div>
+            <div class="doileaa">
+                <img src="doua.png" alt="Living" />
+                <p>Living</p>
+            </div>
+            <div class="doileaa">
+                <img src="treia.png" alt="Bedroom" />
+                <p>Bedroom</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="al_treilea">
+        <h2>Our Products</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="prima.png" class="product-image" alt="Syltherine" />
+                <div class="badge">-30%</div>
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Syltherine</div>
+                    <div class="product-desc">Stylish cafe chair</div>
+                    <div class="product-price">
+                        Rp 2.500.000 <span class="old-price">Rp 3.500.000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="doua.png" class="product-image" alt="Leviosa" />
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Leviosa</div>
+                    <div class="product-desc">Stylish cafe chair</div>
+                    <div class="product-price">Rp 2.500.000</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="treia.png" class="product-image" alt="Lolito" />
+                <div class="badge">-50%</div>
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Lolito</div>
+                    <div class="product-desc">Luxury big sofa</div>
+                    <div class="product-price">
+                        Rp 7.000.000 <span class="old-price">Rp 14.000.000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="scaun.png" class="product-image" alt="Respira" />
+                <div class="badge new">New</div>
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Respira</div>
+                    <div class="product-desc">Outdoor bar table and stool</div>
+                    <div class="product-price">Rp 500.000</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="im3.png" class="product-image" alt="Grifo" />
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Grifo</div>
+                    <div class="product-desc">Night lamp</div>
+                    <div class="product-price">Rp 1.500.000</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="image 6.png" class="product-image" alt="Muggo" />
+                <div class="badge new">New</div>
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Muggo</div>
+                    <div class="product-desc">Small mug</div>
+                    <div class="product-price">Rp 150.000</div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="im2.png" class="product-image" alt="Pingky" />
+                <div class="badge">-50%</div>
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Pingky</div>
+                    <div class="product-desc">Cute bed set</div>
+                    <div class="product-price">
+                        Rp 7.000.000 <span class="old-price">Rp 14.000.000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="image 8.png" class="product-image" alt="Potty" />
+                <div class="badge new">New</div>
+                <div class="overlay">
+                    <button>Add to cart</button>
+                    <div class="actions">Share | Compare | Like</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-title">Potty</div>
+                    <div class="product-desc">Minimalist flower pot</div>
+                    <div class="product-price">Rp 500.000</div>
+                </div>
+            </div>
+        </div>
+        <div class="show-more">
+            <button id="buton">Show More</button>
+        </div>
+    </section>
+
+    <section class="inspiratie">
+        <div class="content">
+            <h2>50+ Beautiful rooms inspiration</h2>
+            <p>
+                Our designer already made a lot of beautiful prototype of rooms that inspire you
+            </p>
+            <button class="buton_inspo">Explore More</button>
+        </div>
+        <div class="room-card">
+            <img src="Rectangle 24.png" alt="Room 1" />
+            <div class="room-info">
+                <p>01 — Bed Room</p>
+                <h3>Inner Peace</h3>
+                <button class="buton_sage">→</button>
+            </div>
+        </div>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-pagination"></div>
+                <div class="swiper-slide">
+                    <div class="room-card">
+                        <img src="Rectangle 25.png" alt="" />
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="room-card">
+                        <img src="Rectangle 26.png" alt="" />
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="room-card">
+                        <img src="alta.png" alt="" />
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+    <section class="a_treia">
+        <div>
+            <p>Share your setup with</p>
+            <h2><b>#FurniroFurniture</b></h2>
+            <img src="Images.png" alt="" />
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h2 class="brand-name">Funiro.</h2>
+                <p class="company-address">
+                    400 University Drive Suite 200 Coral Gables, FL 33134 USA
+                </p>
+            </div>
+            <nav class="footer-navigation">
+                <section class="footer-links">
+                    <h3 class="footer-heading">Links</h3>
+                    <ul class="footer-menu">
+                        <li><a href="home.html" class="footer-link">Home</a></li>
+                        <li><a href="shop.html" class="footer-link">Shop</a></li>
+                        <li><a href="about.html" class="footer-link">About</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact</a></li>
+                    </ul>
+                </section>
+                <section class="footer-help">
+                    <h3 class="footer-heading">Help</h3>
+                    <ul class="footer-menu">
+                        <li><a href="#" class="footer-link">Payment Options</a></li>
+                        <li><a href="#" class="footer-link">Returns</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policies</a></li>
+                    </ul>
+                </section>
+                <section class="footer-newsletter">
+                    <h3 class="footer-heading">Newsletter</h3>
+                    <form class="newsletter-form" aria-label="Newsletter subscription form">
+                        <div class="input-container">
+                            <label for="email-input" class="email-label"></label>
+                            <input type="email" id="email-input" class="email-input" placeholder="Enter your email" required aria-label="Email address input" />
+                            <div class="input-underline"></div>
+                            <button type="button" id="submit-button" class="subscribe-button">
+                  SUBSCRIBE
+                </button>
+                        </div>
+                    </form>
+                </section>
+            </nav>
+        </div>
+        <div class="copyright">
+            Cris project from figma. All rights reverved hehehe
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper(".mySwiper", {
+            slidesPerView: 2,
+            spaceBetween: 30,
+            loop: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+            },
+            autoplay: {
+                delay: 1500,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+                480: {
+                    slidesPerView: 1,
+                },
+            },
+        });
+
+        function loadTheme() {
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem(
+                "theme",
+                document.body.classList.contains("dark-mode") ? "dark" : "light"
+            );
+        }
+
+        const input = document.getElementById("email-input");
+        const label = document.querySelector(".email-label");
+        const button = document.getElementById("submit-button");
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedEmail = localStorage.getItem("userEmail");
+            if (savedEmail) {
+                input.value = savedEmail;
+                label.style.display = "none";
+            }
+            loadTheme();
+        });
+
+        input.addEventListener("input", () => {
+            if (input.value.trim() !== "") {
+                label.style.display = "none";
+            } else {
+                label.style.display = "block";
+            }
+            localStorage.setItem("userEmail", input.value.trim());
+        });
+
+        button.addEventListener("click", () => {
+            alert("Email salvat: " + input.value.trim());
+        });
+    </script>
+</body>
+
+</html>
